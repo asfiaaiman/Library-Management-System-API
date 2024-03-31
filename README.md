@@ -1,66 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Library Management System API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+This README file provides instructions on how to set up and run the project, along with explanations about the code structure and implementation details.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Setup Instructions
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 11
+- Composer
+- PgSQL database
 
-## Learning Laravel
+### Installation Steps
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository to your local machine:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+   git clone https://github.com/asfiaaiman/Library-Management-System-API.git
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Navigate to the project directory:
 
-## Laravel Sponsors
+   cd project-name
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Install PHP dependencies using Composer:
 
-### Premium Partners
+   composer install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. Copy the `.env.example` file and rename it to `.env`:
 
-## Contributing
+   cp .env.example .env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Generate an application key:
 
-## Code of Conduct
+   php artisan key:generate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. Configure your database settings in the `.env` file:
 
-## Security Vulnerabilities
+    DB_CONNECTION=pgsql
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_DATABASE=LMS_API
+    DB_USERNAME=postgres
+    DB_PASSWORD=
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+7. Run database migrations to create the necessary tables:
 
-## License
+   php artisan migrate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+8. (Optional) Seed the database with sample data:
+
+   php artisan db:seed
+
+9. Serve the application locally:
+
+   php artisan serve
+
+10. Access the application in your web browser at `http://127.0.0.1:8000/`.
+
+## Code Explanations
+
+- Services Classes have been used to include main business logics
+
+- Controllers use Resource and Collection to test the API
+
+- JSON responses have been used to see the response of an endpoint 
+
+## API End Points
+- Books:
+
+List all books: GET http://127.0.0.1:8000/api/v1/books
+Create a new book: POST http://127.0.0.1:8000/api/v1/books
+Update a book: PUT http://127.0.0.1:8000/api/v1/books/{id}
+Delete a book: DELETE http://127.0.0.1:8000/api/v1/books/{id}
+
+- Authors:
+
+List all authors: GET http://127.0.0.1:8000/api/v1/authors
+Create a new author: POST http://127.0.0.1:8000/api/v1/authors
+Update an author: PUT http://127.0.0.1:8000/api/v1/authors/{id}
+Delete an author: DELETE http://127.0.0.1:8000/api/v1/authors/{id}
+
+- Patrons:
+
+List all patrons: GET http://127.0.0.1:8000/api/v1/patrons
+Create a new patron: POST http://127.0.0.1:8000/api/v1/patrons
+Update a patron: PUT http://127.0.0.1:8000/api/v1/patrons/{id}
+Delete a patron: DELETE http://127.0.0.1:8000/api/v1/patrons/{id}
+
+- Book Search:
+
+Search for books: GET http://127.0.0.1:8000/api/v1/books/search?keyword={keyword}
+Replace {keyword} with the search term or keyword.
+
+- Fetch Books by Author:
+
+List books by author: GET http://127.0.0.1:8000/api/v1/authors/{author}/books
+Replace {author} with the ID or slug of the author.
+
+- Borrow Book:
+
+Borrow a book for a patron: POST http://127.0.0.1:8000/api/v1/patrons/{patronId}/books/{bookId}/borrow
+Replace {patronId} with the ID of the patron and {bookId} with the ID of the book.
+Return Book:
+
+Return a borrowed book: POST http://127.0.0.1:8000/api/v1/patrons/{patronId}/books/{bookId}/return
+Replace {patronId} with the ID of the patron and {bookId} with the ID of the book.
+These endpoints follow the structure of the provided Laravel routes and are prefixed with /api/v1/ as specified in the routes/api.php file. Adjust the base URL (http://127.0.0.1:8000/) based on your actual development environment.
+
+### API Versioning
+
+- The API versioning is implemented using URL-based versioning in the `routes/api.php` file.
+- Each API version has its own route group prefixed with the version number (e.g., `/v1`).
+- Middleware such as throttle rate limiting (`throttle:3,10`) is applied to specific routes or route groups to control the rate of incoming requests.
+
+### Caching Strategy
+
+- Caching is implemented using Laravel's caching mechanisms (`Cache::remember`) in service classes and controllers.
+- Frequently accessed data, such as book listings, is cached to optimize response times and reduce database queries.
+
+## Additional Notes
+
+- Modify the `.env` file to suit your local development environment, including database settings, cache driver, and other configuration options.
+- Use appropriate namespace and controller names based on your actual project structure.
+- Refer to Laravel's official documentation for more information on Laravel installation, configuration, and best practices.
