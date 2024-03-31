@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
+use App\Models\Author;
 use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ use Illuminate\Http\Response;
 class BookController extends Controller
 {
     /**
-     * Injecting the BookService class into th constructor.
+     * Injecting the BookService class into the constructor.
      * Then, we have access to the service in whatever methods we need
      */
 

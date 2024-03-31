@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BookCollection extends ResourceCollection
+class AuthorCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,9 @@ class BookCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => BookResource::collection($this->collection),
+            'data' => $this->collection->transform(function ($author) {
+                return new AuthorResource($author);
+            }),
         ];
     }
 }
