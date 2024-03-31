@@ -68,43 +68,49 @@ This README file provides instructions on how to set up and run the project, alo
 ## API End Points
 - Books:
 
-List all books: GET http://127.0.0.1:8000/api/v1/books
-Create a new book: POST http://127.0.0.1:8000/api/v1/books
-Update a book: PUT http://127.0.0.1:8000/api/v1/books/{id}
-Delete a book: DELETE http://127.0.0.1:8000/api/v1/books/{id}
+1. List all books: GET http://127.0.0.1:8000/api/v1/books
+2. Create a new book: POST http://127.0.0.1:8000/api/v1/books
+3. Update a book: PUT http://127.0.0.1:8000/api/v1/books/{id}
+4. Delete a book: DELETE http://127.0.0.1:8000/api/v1/books/{id}
 
 - Authors:
 
-List all authors: GET http://127.0.0.1:8000/api/v1/authors
-Create a new author: POST http://127.0.0.1:8000/api/v1/authors
-Update an author: PUT http://127.0.0.1:8000/api/v1/authors/{id}
-Delete an author: DELETE http://127.0.0.1:8000/api/v1/authors/{id}
+1. List all authors: GET http://127.0.0.1:8000/api/v1/authors
+2. Create a new author: POST http://127.0.0.1:8000/api/v1/authors
+3. Update an author: PUT http://127.0.0.1:8000/api/v1/authors/{id}
+4. Delete an author: DELETE http://127.0.0.1:8000/api/v1/authors/{id}
 
 - Patrons:
 
-List all patrons: GET http://127.0.0.1:8000/api/v1/patrons
-Create a new patron: POST http://127.0.0.1:8000/api/v1/patrons
-Update a patron: PUT http://127.0.0.1:8000/api/v1/patrons/{id}
-Delete a patron: DELETE http://127.0.0.1:8000/api/v1/patrons/{id}
+1. List all patrons: GET http://127.0.0.1:8000/api/v1/patrons
+2. Create a new patron: POST http://127.0.0.1:8000/api/v1/patrons
+3. Update a patron: PUT http://127.0.0.1:8000/api/v1/patrons/{id}
+4. Delete a patron: DELETE http://127.0.0.1:8000/api/v1/patrons/{id}
 
 - Book Search:
 
-Search for books: GET http://127.0.0.1:8000/api/v1/books/search?keyword={keyword}
+1. Search for books: GET http://127.0.0.1:8000/api/v1/books/search?keyword={keyword}
+
 Replace {keyword} with the search term or keyword.
 
 - Fetch Books by Author:
 
-List books by author: GET http://127.0.0.1:8000/api/v1/authors/{author}/books
+1. List books by author: GET http://127.0.0.1:8000/api/v1/authors/{author}/books
+
 Replace {author} with the ID or slug of the author.
 
 - Borrow Book:
 
-Borrow a book for a patron: POST http://127.0.0.1:8000/api/v1/patrons/{patronId}/books/{bookId}/borrow
-Replace {patronId} with the ID of the patron and {bookId} with the ID of the book.
-Return Book:
+1. Borrow a book for a patron: POST http://127.0.0.1:8000/api/v1/patrons/{patronId}/books/{bookId}/borrow
 
-Return a borrowed book: POST http://127.0.0.1:8000/api/v1/patrons/{patronId}/books/{bookId}/return
 Replace {patronId} with the ID of the patron and {bookId} with the ID of the book.
+
+- Return Book:
+
+1. Return a borrowed book: POST http://127.0.0.1:8000/api/v1/patrons/{patronId}/books/{bookId}/return
+
+Replace {patronId} with the ID of the patron and {bookId} with the ID of the book.
+
 These endpoints follow the structure of the provided Laravel routes and are prefixed with /api/v1/ as specified in the routes/api.php file. Adjust the base URL (http://127.0.0.1:8000/) based on your actual development environment.
 
 ### API Versioning
