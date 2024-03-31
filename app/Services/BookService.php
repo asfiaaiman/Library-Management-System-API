@@ -46,6 +46,11 @@ class BookService
     // Deleting a book
     public function delete(Book $book): bool
     {
+        // Check if the book is currently borrowed
+        if ($book->patron) {
+            return false; // Book cannot be deleted if borrowed
+        }
+
         $book->authors()->detach(); // Detach book from authors
         return $book->delete();
     }

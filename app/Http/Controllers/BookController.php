@@ -73,12 +73,17 @@ class BookController extends Controller
             return response()->json(['error' => 'Book not found'], Response::HTTP_NOT_FOUND);
         }
 
-        // If book exists
+        // Check if the book is borrowed by any patron
+        if ($book->patron) {
+            return response()->json(['error' => 'Book is currently borrowed and cannot be deleted'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // If book exists and is not borrowed
         $this->bookService->delete($book);
 
-        return response()->json(['message' => 'Book deleted successfully'],
-        Response::HTTP_OK);
+        return response()->json(['message' => 'Book deleted successfully'], Response::HTTP_OK);
     }
+
 
     /**
      * Books
