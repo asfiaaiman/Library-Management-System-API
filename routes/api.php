@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::middleware('throttle:3,10')->group(function () {
+Route::prefix('v1')->middleware('throttle:3,10')->group(function () {
     Route::apiResource('/authors', AuthorController::class);
     Route::resource('/books', BookController::class)->only(
         ['index', 'store', 'update', 'destroy']
