@@ -19,7 +19,7 @@ class BookService
 
     public function getAllBooks(): Collection
     {
-        return Book::all();
+        return Book::with('authors')->get();
     }
     // Creating a book
     public function store(array $bookData): Book

@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\{
+    AuthorController,
+    BookController
+};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+Route::apiResource('/authors', AuthorController::class);
 Route::resource('/books', BookController::class)->only([
     'index', 'store', 'update', 'destroy'
 ]);
