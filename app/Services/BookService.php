@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class BookService
 {
@@ -20,15 +21,19 @@ class BookService
 
     public function getAllBooks(): Collection
     {
-        return Book::with('authors')->get();
+        return Cache::remember('all_books', 60, function () {
+            return Book::with('authors')->get(['id', 'title', 'description', 'isbn', 'publication_date']);
+        });
     }
     // Creating a book
     public function store(array $bookData, array $authorIds): Book
     {
-        $book = Book::create($bookData);
-        $book->authors()->attach($authorIds); // Attach authors to the book
+        return Cache::remember('created_book', 60, function () use ($bookData, $authorIds) {
+            $book = Book::create($bookData);
+            $book->authors()->attach($authorIds); // Attach authors to the book
 
-        return $book;
+            return $book;
+        });
     }
     // Updating a book
     public function update(array $bookData, Book $book): Book
@@ -41,32 +46,50 @@ class BookService
             $book->authors()->sync($bookData['authors']);
         }
 
-        return $book->fresh();
+        // Cache the updated book data
+        Cache::put('book_' . $book->id, $book, 60); // Cache for 60 minutes
+
+        return $book->fresh(); // Return the fresh instance of the book
     }
     // Deleting a book
     public function delete(Book $book): bool
     {
         // Check if the book is currently borrowed
-        if ($book->patron) {
+        if (Cache::has('book_borrowed_' . $book->id)) {
             return false; // Book cannot be deleted if borrowed
         }
 
         $book->authors()->detach(); // Detach book from authors
-        return $book->delete();
+        $deleted = $book->delete();
+
+        if ($deleted) {
+            // Cache the fact that the book is not borrowed
+            Cache::put('book_borrowed_' . $book->id, false, 60); // Cache for 60 minutes
+        }
+
+        return $deleted;
     }
     // Searching books
     public function searchByTitleAndAuthor(string $title, $authors)
     {
-        return Book::where('title', $title)
-        ->whereHas('authors', function ($query) use ($authors) {
-            $query->whereIn('authors.id', $authors->pluck('id')->toArray());
-        })
-        ->with('authors:id,first_name,last_name') // Eager loading the authors with specific columns
-        ->get(['id', 'title']);
+        $cacheKey = 'search_' . md5($title . serialize($authors));
+
+        return Cache::remember($cacheKey, 60, function () use ($title, $authors) {
+            return Book::where('title', $title)
+                ->whereHas('authors', function ($query) use ($authors) {
+                    $query->whereIn('authors.id', $authors->pluck('id')->toArray());
+                })
+                ->with('authors:id,first_name,last_name') // Eager loading the authors with specific columns
+                ->get(['id', 'title']);
+        });
     }
     // Fetch book by author name
     public function fetchBooksByAuthor(Author $author)
     {
-        return $author->books()->get();
+        $cacheKey = 'author_books_' . $author->id;
+
+        return Cache::remember($cacheKey, 60, function () use ($author) {
+            return $author->books()->get();
+        });
     }
 }
