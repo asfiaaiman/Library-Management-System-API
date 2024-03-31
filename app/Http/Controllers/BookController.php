@@ -41,8 +41,9 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        return response()->json(new BookResource($this->bookService->store($request->validated())),
-        Response::HTTP_CREATED);
+        $validatedData = $request->validated();
+        $book = $this->bookService->store($validatedData, $validatedData['authors']);
+        return response()->json(new BookResource($book), Response::HTTP_CREATED);
     }
 
     /**
@@ -83,19 +84,28 @@ class BookController extends Controller
      * Books
      * Point 3: Implementing a feature to search for books by title and author
     */
-    public function search(StoreBookRequest $request)
+    public function search(Request $request)
     {
-        $searchTerm = $request->input('search');
-        $books = $this->bookService->searchBooks($searchTerm);
-        return response()->json(BookResource::collection($books), Response::HTTP_OK);
+        $title = $request->input('title');
+        $authorIds = $request->input('authors');
+
+        $authors = Author::whereIn('id', $authorIds)->get();
+        $books = $this->bookService->searchByTitleAndAuthor($title, $authors);
+
+        if ($books->isEmpty()) {
+            return response()->json(['error' => 'No books found for the specified title and author'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json(['books' => $books], Response::HTTP_OK);
     }
+
     /**
      * Books
      * Point 4:  fetching all books by a particular author
     */
-    public function fetchByAuthor(Author $author)
+    public function fetchBooksByAuthor(Author $author)
     {
-        $books = $this->bookService->fetchByAuthor($author);
+        $books = $this->bookService->fetchBooksByAuthor($author);
         return response()->json(BookResource::collection($books), Response::HTTP_OK);
     }
 }

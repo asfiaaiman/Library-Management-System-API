@@ -23,7 +23,6 @@ class Book extends Model
      */
     public function authors(): BelongsToMany
     {
-        // author_book is a pivot table, authors_id is foreignPivotKey, books_id is relatedPivotKey
-        return $this->belongsToMany(Author::class, 'author_book', 'author_id', 'book_id');
+        return $this->belongsToMany(Author::class);
     }
 }

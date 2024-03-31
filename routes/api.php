@@ -15,3 +15,4 @@ Route::resource('/books', BookController::class)->only([
 
 // For searching books
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+Route::get('/authors/{author}/books', [BookController::class, 'fetchBooksByAuthor']);
